@@ -54,8 +54,6 @@ configure_systemd_service() {
     chmod 600 "$install_dir/.env.systemd"
 
     ynh_add_systemd_config
-
-    systemctl daemon-reload
 }
 
 #=================================================
