@@ -42,9 +42,7 @@ yunohost service add $app --description="Anki Sync Server" --log="/var/log/$app/
 #=================================================
 ynh_script_progression --message="Reloading NGINX web server and $app's service..." --weight=1
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
-
-ynh_systemd_action --service_name=nginx --action=reload
+ynh_systemd_action --service_name=$app --action="start"  --line_match="INFO listening addr=127.0.0.1:"
 
 #=================================================
 # END OF SCRIPT
