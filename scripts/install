@@ -7,8 +7,8 @@ source /usr/share/yunohost/helpers
 # INITIALIZE AND STORE SETTINGS
 #=================================================
 
-initial_password=$(ynh_random_string 15)
-salt=$(ynh_random_string 32)
+initial_password=$(ynh_string_random --length=15)
+salt=$(ynh_string_random --length=32)
 hashed_password=$(echo -n $initial_password | argon2 $salt -id -e)
 
 # Set default values for optional config panel settings if not provided
