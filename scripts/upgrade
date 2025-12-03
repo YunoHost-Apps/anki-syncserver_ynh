@@ -34,7 +34,7 @@ ynh_script_progression --message="Upgrading source files..." --weight=1
 	set +o nounset
 	source "${install_dir}/venv/bin/activate"
 	set -o nounset
-	ynh_exec_as $app $install_dir/venv/bin/pip3 install --no-cache-dir --upgrade anki
+	ynh_exec_as $app $install_dir/venv/bin/pip3 install --no-cache-dir --upgrade anki==${ynh_app_upstream_version}
 )
 
 #=================================================
