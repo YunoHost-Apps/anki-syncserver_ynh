@@ -1,6 +1,6 @@
 ## Next Steps
 
-A default user is provided with username `user` and password `changeme`.
+A default user is provided with username `user` and password `__PASSWORD__`.
 
 Complete the installation and go change it:
    - Web: Applications → Anki Sync Server → Config
