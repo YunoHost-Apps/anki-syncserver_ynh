@@ -47,3 +47,9 @@ configure_systemd_service() {
 
     ynh_add_systemd_config
 }
+
+
+function password_hash() {
+    retval=$(python3 -c "import sys; import hashlib; import secrets; import base64; salt=secrets.token_bytes(32); print(f\"\$pbkdf2-sha256\$i=100000\${base64.b64encode(salt).decode('utf-8').rstrip('=')}\${base64.b64encode(hashlib.pbkdf2_hmac('sha256',sys.argv[1].encode('utf-8'),salt,100_000)).decode('utf-8').rstrip('=')}\")" "$1")
+    echo $retval
+}

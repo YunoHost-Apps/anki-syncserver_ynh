@@ -4,6 +4,6 @@ A default user is provided with username `user` and password `__INITIAL_PASSWORD
 
 Complete the installation and go change it:
    - Web: Applications → Anki Sync Server → Config
-   - CLI: `yunohost app config show anki-sync-server`
+   - CLI: `yunohost app config get anki-syncserver`
 
 Then you are ready to configure your clients, refer to the admin documentation for further instructions.

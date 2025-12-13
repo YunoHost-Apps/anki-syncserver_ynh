@@ -9,7 +9,7 @@ source /usr/share/yunohost/helpers
 
 initial_password=$(ynh_string_random --length=15)
 salt=$(ynh_string_random --length=32)
-hashed_password=$(echo -n $initial_password | argon2 $salt -id -e)
+hashed_password=$(password_hash "$initial_password")
 
 # Set default values for optional config panel settings if not provided
 sync_user_1=${sync_user_1:-"user:$hashed_password"}
