@@ -38,13 +38,13 @@ ynh_restore_file --origin_path="/var/log/$app"
 yunohost service add $app --description="Anki Sync Server" --log="/var/log/$app/$app.log"
 
 #=================================================
-# RELOAD NGINX AND PHP-FPM OR THE APP SERVICE
+# RELOAD NGINX AND THE APP SERVICE
 #=================================================
 ynh_script_progression --message="Reloading NGINX web server and $app's service..." --weight=1
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start" --line_match="127\.0\.0\.1:"
 
-ynh_systemd_action --service_name=nginx --action=reload
+ynh_systemd_action  --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT

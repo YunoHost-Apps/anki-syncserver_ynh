@@ -5,7 +5,7 @@ name = "Anki Sync Server"
 description.en = "Sync server for Anki flashcard application"
 description.fr = "Serveur de synchronisation pour l'application Anki"
 
-version = "25.09~ynh1"
+version = "25.09.2~ynh1"
 
 maintainers = ["endorama"]
 
@@ -39,6 +39,13 @@ ram.runtime = "50M"
     default = "visitors"
 
 [resources]
+    [resources.sources]
+    [resources.sources.main]
+    url = "https://github.com/ankitects/anki/archive/refs/tags/25.09.2.tar.gz"
+    sha256 = "4414972cb270c25b7b96f3ac942277db1f3db6cebe410ed4d76b6c8c4427949b"
+    autoupdate.strategy = "latest_github_tag"
+    prefetch = false
+
     [resources.system_user]
 
     [resources.install_dir]

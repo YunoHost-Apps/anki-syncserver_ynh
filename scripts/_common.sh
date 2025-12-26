@@ -7,9 +7,9 @@ gen_sync_user() {
     value="$2"
 
     if [ -n "$value" ]; then
-        echo "Environment=\"SYNC_USER${n}=${value}\"" 
+        echo "SYNC_USER${n}=${value}" 
     else
-        echo "#Environment=\"SYNC_USER${n}=\""
+        echo "#SYNC_USER${n}="
     fi
 }
 
