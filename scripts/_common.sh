@@ -6,10 +6,10 @@ gen_sync_user() {
     local value
     value="$2"
     local pwd
-    value="$(ynh_app_setting_get --app=$app --key=sync_password_${n})"
+    pwd="$(ynh_app_setting_get --app=$app --key=sync_password_${n})"
 
     if [ -n "$value" ]; then
-        echo "SYNC_USER${n}=${value}" 
+        echo "SYNC_USER${n}=${value}:${pwd}" 
     else
         echo "#SYNC_USER${n}="
     fi
