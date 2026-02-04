@@ -7,34 +7,57 @@ name = "Main configuration"
     name = "Sync Users"
 
         [main.sync_users.sync_user_1]
-        ask = "User 1 credentials (format: username:password)"
+        ask = "User 1 name"
+        type = "string"
+
+        [main.sync_users.sync_password_1]
+        ask = "User 1 password (leave blank to retain current password)"
+        type = "password"
+
+        [main.sync_users.sync_user_2]
+        ask = "User 2 name"
         type = "string"
         help = "Leave empty to disable this user slot"
         optional = true
 
-        [main.sync_users.sync_user_2]
-        ask = "User 2 credentials (format: username:password)"
-        type = "string"
-        help = "Leave empty to disable this user slot"
+        [main.sync_users.sync_password_2]
+        ask = "User 1 password (leave blank to retain current password)"
+        type = "password"
         optional = true
 
         [main.sync_users.sync_user_3]
-        ask = "User 3 credentials (format: username:password)"
+        ask = "User 3 name"
         type = "string"
         help = "Leave empty to disable this user slot"
+        optional = true
+
+        [main.sync_users.sync_password_3]
+        ask = "User 1 password (leave blank to retain current password)"
+        type = "password"
         optional = true
 
         [main.sync_users.sync_user_4]
-        ask = "User 4 credentials (format: username:password)"
+        ask = "User 4 name"
         type = "string"
         help = "Leave empty to disable this user slot"
         optional = true
 
+        [main.sync_users.sync_password_4]
+        ask = "User 1 password (leave blank to retain current password)"
+        type = "password"
+        optional = true
+
         [main.sync_users.sync_user_5]
-        ask = "User 5 credentials (format: username:password)"
+        ask = "User 5 name"
         type = "string"
         help = "Leave empty to disable this user slot"
         optional = true
+
+        [main.sync_users.sync_password_5]
+        ask = "User 1 password (leave blank to retain current password)"
+        type = "password"
+        optional = true
+
 
     [main.limits]
     name = "Upload Limits"

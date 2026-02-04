@@ -5,6 +5,8 @@ gen_sync_user() {
     n="$1"
     local value
     value="$2"
+    local pwd
+    value="$(ynh_app_setting_get --app=$app --key=sync_password_${n})"
 
     if [ -n "$value" ]; then
         echo "SYNC_USER${n}=${value}" 
@@ -34,11 +36,11 @@ configure_systemd_service() {
     sync_user_5=$(ynh_app_setting_get --app=$app --key=sync_user_5)
     max_sync_payload_megs=$(ynh_app_setting_get --app=$app --key=max_sync_payload_megs)
 
-    sync_user_1=$(gen_sync_user "1" "$sync_user_1")
-    sync_user_2=$(gen_sync_user "2" "$sync_user_2")
-    sync_user_3=$(gen_sync_user "3" "$sync_user_3")
-    sync_user_4=$(gen_sync_user "4" "$sync_user_4")
-    sync_user_5=$(gen_sync_user "5" "$sync_user_5")
+    sync_line_1=$(gen_sync_user "1" "$sync_user_1")
+    sync_line_2=$(gen_sync_user "2" "$sync_user_2")
+    sync_line_3=$(gen_sync_user "3" "$sync_user_3")
+    sync_line_4=$(gen_sync_user "4" "$sync_user_4")
+    sync_line_5=$(gen_sync_user "5" "$sync_user_5")
     max_sync_payload_megs=$(gen_max_sync_payload "$max_sync_payload_megs")
 
     ynh_add_config --template="env" --destination="$install_dir/.env.systemd"
