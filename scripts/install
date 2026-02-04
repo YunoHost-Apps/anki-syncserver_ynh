@@ -7,20 +7,30 @@ source /usr/share/yunohost/helpers
 # INITIALIZE AND STORE SETTINGS
 #=================================================
 
+initial_password=$(ynh_string_random --length=15)
+salt=$(ynh_string_random --length=32)
+hashed_password=$(password_hash "$initial_password")
+sync_line_1="user:$hashed_password"
+sync_line_2=""
+sync_line_3=""
+sync_line_4=""
+sync_line_5=""
+
 # Set default values for optional config panel settings if not provided
-sync_user_1=${sync_user_1:-"user:changeme"}
-sync_user_2=${sync_user_2:-}
-sync_user_3=${sync_user_3:-}
-sync_user_4=${sync_user_4:-}
-sync_user_5=${sync_user_5:-}
 max_sync_payload_megs=${max_sync_payload_megs:-100}
 
 # Store settings
-ynh_app_setting_set --app=$app --key=sync_user_1 --value="$sync_user_1"
-ynh_app_setting_set --app=$app --key=sync_user_2 --value="$sync_user_2"
-ynh_app_setting_set --app=$app --key=sync_user_3 --value="$sync_user_3"
-ynh_app_setting_set --app=$app --key=sync_user_4 --value="$sync_user_4"
-ynh_app_setting_set --app=$app --key=sync_user_5 --value="$sync_user_5"
+ynh_app_setting_set_default --app=$app --key=sync_user_1 --value="user"
+ynh_app_setting_set_default --app=$app --key=sync_password_1 --value="$hashed_password"
+ynh_app_setting_set_default --app=$app --key=sync_user_2 --value=""
+ynh_app_setting_set_default --app=$app --key=sync_password_2 --value=""
+ynh_app_setting_set_default --app=$app --key=sync_user_3 --value=""
+ynh_app_setting_set_default --app=$app --key=sync_password_3 --value=""
+ynh_app_setting_set_default --app=$app --key=sync_user_4 --value=""
+ynh_app_setting_set_default --app=$app --key=sync_password_4 --value=""
+ynh_app_setting_set_default --app=$app --key=sync_user_5 --value=""
+ynh_app_setting_set_default --app=$app --key=sync_password_5 --value=""
+ynh_app_setting_set --app=$app --key=initial_password --value="$initial_password"
 ynh_app_setting_set --app=$app --key=max_sync_payload_megs --value="$max_sync_payload_megs"
 
 #=================================================

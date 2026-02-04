@@ -10,25 +10,32 @@ ynh_script_progression --message="Loading installation settings..." --weight=1
 
 # Get old values
 old_sync_user_1=$(ynh_app_setting_get --app=$app --key=sync_user_1)
+old_sync_password_1=$(ynh_app_setting_get --app=$app --key=sync_password_1)
 old_sync_user_2=$(ynh_app_setting_get --app=$app --key=sync_user_2)
+old_sync_password_2=$(ynh_app_setting_get --app=$app --key=sync_password_2)
 old_sync_user_3=$(ynh_app_setting_get --app=$app --key=sync_user_3)
+old_sync_password_3=$(ynh_app_setting_get --app=$app --key=sync_password_3)
 old_sync_user_4=$(ynh_app_setting_get --app=$app --key=sync_user_4)
+old_sync_password_4=$(ynh_app_setting_get --app=$app --key=sync_password_4)
 old_sync_user_5=$(ynh_app_setting_get --app=$app --key=sync_user_5)
+old_sync_password_5=$(ynh_app_setting_get --app=$app --key=sync_password_5)
 old_max_sync_payload_megs=$(ynh_app_setting_get --app=$app --key=max_sync_payload_megs)
 
 #=================================================
 # SHOW_CONFIG FUNCTION FOR 'SHOW' COMMAND
 #=================================================
 
-show_config() {
-    # here you are supposed to read some config file/database/other then print the values
-    # ynh_return "YNH_CONFIG_${PANEL_ID}_${SECTION_ID}_${OPTION_ID}=value"
-    
+show_config() {    
     ynh_return "YNH_CONFIG_main_sync_users_sync_user_1=$old_sync_user_1"
+    ynh_return "YNH_CONFIG_main_sync_users_sync_password_1="
     ynh_return "YNH_CONFIG_main_sync_users_sync_user_2=$old_sync_user_2"
+    ynh_return "YNH_CONFIG_main_sync_users_sync_password_2="
     ynh_return "YNH_CONFIG_main_sync_users_sync_user_3=$old_sync_user_3"
+    ynh_return "YNH_CONFIG_main_sync_users_sync_password_3="
     ynh_return "YNH_CONFIG_main_sync_users_sync_user_4=$old_sync_user_4"
+    ynh_return "YNH_CONFIG_main_sync_users_sync_password_4="
     ynh_return "YNH_CONFIG_main_sync_users_sync_user_5=$old_sync_user_5"
+    ynh_return "YNH_CONFIG_main_sync_users_sync_password_5="
     ynh_return "YNH_CONFIG_main_limits_max_sync_payload_megs=$old_max_sync_payload_megs"
 }
 
@@ -37,20 +44,34 @@ show_config() {
 #=================================================
 
 apply_config() {
-    # Get new values from the form
-    sync_user_1=${YNH_CONFIG_main_sync_users_sync_user_1:-}
-    sync_user_2=${YNH_CONFIG_main_sync_users_sync_user_2:-}
-    sync_user_3=${YNH_CONFIG_main_sync_users_sync_user_3:-}
-    sync_user_4=${YNH_CONFIG_main_sync_users_sync_user_4:-}
-    sync_user_5=${YNH_CONFIG_main_sync_users_sync_user_5:-}
-    max_sync_payload_megs=${YNH_CONFIG_main_limits_max_sync_payload_megs:-100}
-    
     # Save new settings
-    ynh_app_setting_set --app=$app --key=sync_user_1 --value="$sync_user_1"
-    ynh_app_setting_set --app=$app --key=sync_user_2 --value="$sync_user_2"
-    ynh_app_setting_set --app=$app --key=sync_user_3 --value="$sync_user_3"
-    ynh_app_setting_set --app=$app --key=sync_user_4 --value="$sync_user_4"
-    ynh_app_setting_set --app=$app --key=sync_user_5 --value="$sync_user_5"
+    
+    last_n=1
+
+    for i in 1 2 3 4 5; do
+        user_var="YNH_CONFIG_main_sync_users_sync_user_${i}";
+        password_var="YNH_CONFIG_main_sync_users_sync_password_${i}";
+        if [ -n "${!user_var}" ]; then
+            ynh_app_setting_set --app=$app --key="sync_user_${last_n}" --value="${!user_var}"
+            if [ -n "${!password_var}" ]; then
+                hashed_pass=$(password_hash "${!password_var}")
+                ynh_app_setting_set --app=$app --key="sync_password_${last_n}" --value="$password_hash"
+            else
+                copy_from="old_sync_password_${i}"
+                ynh_app_setting_set --app=$app --key="sync_password_${last_n}" --value="${!copy_from}"
+            fi;
+
+            last_n=$(($last_n+1));
+        fi;
+    done
+
+    for i in 1 2 3 4 5; do
+    if [ $i -ge $last_n ]; then
+        ynh_app_setting_set --app=$app --key="sync_user_${i}" --value=""
+        ynh_app_setting_set --app=$app --key="sync_password_${i}" --value=""
+    fi
+    done
+
     ynh_app_setting_set --app=$app --key=max_sync_payload_megs --value="$max_sync_payload_megs"
     
     # Reconfigure systemd service with new environment variables
